@@ -1,5 +1,5 @@
-import { connectionDb } from "../database/db";
-import { ordersSchema } from "../schemas/ordersSchema";
+import { connectionDb } from "../database/db.js";
+import { ordersSchema } from "../schemas/ordersSchema.js";
 
 export async function postOrderMiddleware(req, res, next){
     const {clientId, cakeId, quantity, totalPrice} = req.body
@@ -41,4 +41,19 @@ export async function postOrderMiddleware(req, res, next){
         res.sendStatus(500)
     }
     next()
+}
+
+export async function getOrderByIdMiddleware(req, res, next){
+    const {id} = req.params;
+
+    try {
+        const {rows} = await connectionDb.query('select * from orders where orders.id = $1',[id]);
+        if (rows[0] === undefined){
+            res.sendStatus(404);
+        }
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+    next();
 }

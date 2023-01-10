@@ -1,4 +1,4 @@
-import { connectionDb } from "../database/db";
+import { connectionDb } from "../database/db.js";
 
 export async function postOrder(req, res){
     const {clientId, cakeId, quantity, totalPrice} = req.body
@@ -22,5 +22,39 @@ export async function getOrderById(req, res){
     } catch (error) {
         console.log(error);
         res.sendStatus(500)
+    }
+}
+
+export async function getOrders(req, res){
+
+
+    try {
+        const {rows} = await connectionDb.query('select clients.id as "clientId", clients."name" as "clientName", clients.address, clients.phone, cakes.id as "cakeId", cakes."name" as "cakeName", cakes.price, cakes.description , cakes.image, orders.id as "orderId", orders."createdAt", orders.quantity , orders."totalPrice"  from clients join orders on clients.id = orders."clientId" join cakes on cakes.id = orders."cakeId"')
+
+        const order = rows.map((o) =>{
+            return{
+                client: {
+                    id: o.clientId,
+                    name: o.clientName,
+                    address: o.address,
+                    phone: o.phone
+                },
+                cake: {
+                    id: o.cakeId,
+                    name: o.cakeName,
+                    price: o.price,
+                    description: o.description,
+                    image: o.image
+                },
+                orderId: o.orderId,
+                createdAt: o.createdAt,
+                quantity: o.quantity,
+                totalPrice: o.totalPrice
+            }
+        })
+        res.send(order)
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
     }
 }

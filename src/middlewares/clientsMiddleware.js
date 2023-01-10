@@ -1,4 +1,4 @@
-import { clientsSchema } from "../schemas/clientsSchema";
+import { clientsSchema } from "../schemas/clientsSchema.js";
 
 export function postClientsMiddleware(req, res, next){
     const {name, address, phone} = req.body

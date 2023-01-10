@@ -5,9 +5,9 @@ export async function postCakes(req, res){
 
     try {
         await connectionDb.query(`insert into cakes (name, price, image, description) values ($1, $2, $3, $4)`, [name, price, image, description])
-        res.sendStatus(201)
+        return res.sendStatus(201)
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
 }

@@ -5,6 +5,6 @@ import { getOrderByIdMiddleware, postOrderMiddleware } from "../middlewares/orde
 const router = Router();
 
 router.post("/orders", postOrderMiddleware, postOrder);
-router.get("/orders", getOrders)
+router.get("/orders/", getOrders);
 router.get("/orders/:id", getOrderByIdMiddleware, getOrderById);
 export default router;

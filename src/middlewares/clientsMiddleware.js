@@ -7,16 +7,23 @@ export function postClientsMiddleware(req, res, next){
         address,
         phone
     }
+    let status;
 
     try {
         const {error} = clientsSchema.validate(client, {abortEarly: false})
         if (error){
-            const errors = error.details.map((details) => details.message);
-            res.status(400).send(errors)
+            const errors = error.details.map((detail) => {
+                console.log(detail)
+                if (detail.type === 'string.empty' || detail.type === 'string.min' || detail.type === 'string.max'){
+                    status = 400
+                }
+                return detail.message
+            });
+            return res.status(status).send(errors)
         }
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
     next();
 }

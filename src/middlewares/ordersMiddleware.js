@@ -23,22 +23,24 @@ export async function postOrderMiddleware(req, res, next){
 
     try {
         const { rows } = await connectionDb.query("select * from clients where clients.id = $1", [clientId]);
+        console.log(rows[0])
         if (rows[0] === undefined){
-            res.sendStatus(404)
+            return res.sendStatus(404)
         }
     } catch (error) {
         console.log(error);
-        res.sendStatus(500)
+        return res.sendStatus(500)
     }
 
     try {
-        const {rows} = await connectionDb.query("select * from cakes qhere cakes.id = $1", [cakeId]);
+        const {rows} = await connectionDb.query("select * from cakes where cakes.id = $1", [cakeId]);
+        console.log(rows[0]);
         if (rows[0] === undefined){
-            res.sendStatus(404);
+            return res.sendStatus(404);
         }
     } catch (error) {
         console.log(error);
-        res.sendStatus(500)
+        return res.sendStatus(500);
     }
     next()
 }
@@ -49,11 +51,11 @@ export async function getOrderByIdMiddleware(req, res, next){
     try {
         const {rows} = await connectionDb.query('select * from orders where orders.id = $1',[id]);
         if (rows[0] === undefined){
-            res.sendStatus(404);
+            return res.sendStatus(404);
         }
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
     next();
 }

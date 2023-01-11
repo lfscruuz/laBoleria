@@ -1,3 +1,4 @@
+import { connectionDb } from "../database/db.js";
 import { clientsSchema } from "../schemas/clientsSchema.js";
 
 export function postClientsMiddleware(req, res, next){
@@ -26,4 +27,20 @@ export function postClientsMiddleware(req, res, next){
         return res.sendStatus(500);
     }
     next();
+}
+
+export async function getClientOrdersMiddleware(req, res, next){
+    const {id} = req.params;
+
+    try {
+        const {rows} = await connectionDb.query("select * from clients where clients.id = $1", [id]);
+
+        if (rows[0] === undefined){
+            return res.sendStatus(404)
+        }
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(500);
+    }
+    next()
 }

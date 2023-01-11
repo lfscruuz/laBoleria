@@ -14,7 +14,7 @@ export async function postOrderMiddleware(req, res, next){
         const {error} = ordersSchema.validate(order, {abortEarly: false})
         if (error){
             const errors = error.details.map((detail) => detail.message);
-            res.status(400).send(errors)
+            return res.status(400).send(errors)
         }
     } catch (error) {
         console.log(error);

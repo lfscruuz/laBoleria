@@ -55,7 +55,7 @@ export async function getOrderById(req, res){
     const {id} = req.params;
 
     try {
-        const {rows} = await connectionDb.query(`select clients.id as "clientId", clients."name" as "clientName", clients.address, clients.phone, cakes.id as "cakeId", cakes."name" as "cakeName", cakes.price, cakes.description , cakes.image, orders.id as "orderId", orders."createdAt", orders.quantity , orders."totalPrice"  from clients join orders on clients.id = orders."clientId" join cakes on cakes.id = orders."cakeId" where cakes.id = $1`, [id])
+        const {rows} = await connectionDb.query(`select clients.id as "clientId", clients."name" as "clientName", clients.address, clients.phone, cakes.id as "cakeId", cakes."name" as "cakeName", cakes.price, cakes.description , cakes.image, orders.id as "orderId", orders."createdAt", orders.quantity , orders."totalPrice"  from clients join orders on clients.id = orders."clientId" join cakes on cakes.id = orders."cakeId" where orders.id = $1`, [id])
 
         const order = rows.map((o) =>{
             return{

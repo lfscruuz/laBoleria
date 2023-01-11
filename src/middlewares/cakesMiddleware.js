@@ -9,7 +9,7 @@ export async function postCakesMiddleware(req, res, next) {
         if (error) {
             const errors = error.details.map((detail) => {
                 console.log(detail)
-                if (detail.type === 'string.empty' || detail.type === 'string.min' || detail.type === 'number.min' || detail.type === 'any.required' || detail.type === 'string.base') {
+                if (detail.type === 'string.empty' || detail.type === 'string.min' || detail.type === 'number.min' || detail.type === 'any.required' || detail.type === 'string.base' || detail.type === 'number.base') {
                     status = 400
                 } else if (detail.type === 'string.uri'){
                     status = 422

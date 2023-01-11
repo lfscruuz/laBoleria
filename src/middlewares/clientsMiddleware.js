@@ -29,7 +29,7 @@ export function postClientsMiddleware(req, res, next){
     next();
 }
 
-export async function getClientOrdersMiddleware(req, res, next){
+export async function getClientIdMiddleware(req, res, next){
     const {id} = req.params;
 
     try {
